@@ -15,7 +15,9 @@ describe('test dragFactory', () => {
             <>
               <div className="isDraggingActive">{dragState.isDraggingActive.toString()}</div>
               <div className="isDraggedOver">{dragState.isDraggedOver.toString()}</div>
-              {dragState.isDraggingActive && dragState.target && <div className="target">{dragState.target}</div>}
+              <div className="target">
+                {dragState.isDraggingActive && dragState.target ? dragState.target : 'false'}
+              </div>
             </>
           }/>
         } />
@@ -33,6 +35,7 @@ describe('test dragFactory', () => {
 
     expect(wrapper.search(<div className="isDraggingActive">false</div>).length).toBe(4);
     expect(wrapper.search(<div className="isDraggedOver">false</div>).length).toBe(4);
+    expect(wrapper.search(<div className="target">false</div>).length).toBe(4);
 
     // console.log(wrapper.debug());
   });
