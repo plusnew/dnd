@@ -29,10 +29,15 @@ function factory<target>() {
   return class Drag extends Component<DragProps<target>> {
     displayName = "Drag";
     render(Props: Props<DragProps<target>>) {
-      return <Props render={(props) =>
-        <span>
+      return <Props render={({ onDragStart, render }) =>
+        <span
+          { ...(onDragStart !== undefined && {
+            draggable: 'true',
+            ondragstart: () => dragStore.dispatch({ isDraggingActive: true, target: onDragStart()})
+          })}
+        >
           <dragStore.Observer render={(dragState) =>
-            props.render({
+            render({
               ...dragState,
               isDraggedOver: false,
             })

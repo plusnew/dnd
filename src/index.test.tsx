@@ -2,6 +2,7 @@ import enzymeAdapterPlusnew, { mount } from 'enzyme-adapter-plusnew';
 import { configure } from 'enzyme';
 import plusnew, { Component, Props } from 'plusnew';
 import dragFactory, { DragComponent } from './index';
+import { componentPartial } from './test';
 
 configure({ adapter: new enzymeAdapterPlusnew() });
 
@@ -11,7 +12,9 @@ describe('test dragFactory', () => {
     class MainComponent extends Component<props> {
       render(Props: Props<props>) {
         return <Props render={({ Drag, key }) =>
-          <Drag render={(dragState) =>
+          <Drag
+            { ... ( key % 2 === 0 && { onDragStart: () => key }) }
+            render={(dragState) =>
             <>
               <div className="isDraggingActive">{dragState.isDraggingActive.toString()}</div>
               <div className="isDraggedOver">{dragState.isDraggedOver.toString()}</div>
@@ -37,6 +40,9 @@ describe('test dragFactory', () => {
     expect(wrapper.search(<div className="isDraggedOver">false</div>).length).toBe(4);
     expect(wrapper.search(<div className="target">false</div>).length).toBe(4);
 
-    // console.log(wrapper.debug());
+    const MainComponentFragment = componentPartial(MainComponent);
+    expect(wrapper.search(<MainComponentFragment key={0} />).find('span').prop('draggable')).toBe("true")
+    expect(wrapper.search(<MainComponentFragment key={1} />).find('span').prop('draggable')).toBe(undefined)
+
   });
 });
