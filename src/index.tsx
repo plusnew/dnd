@@ -7,8 +7,8 @@ type isNotDragging = {
 
 type isDragging<target> = {
   isDraggingActive: true;
-  isDraggedOver: boolean;
   target: target;
+  isDraggedOver: boolean;
 };
 
 type dragState<target> = isDragging<target> | isNotDragging;
@@ -28,21 +28,40 @@ function factory<target>() {
 
   return class Drag extends Component<DragProps<target>> {
     displayName = "Drag";
+    draggedOver = store(false, (_state, action: boolean) => action);
+
+    dragEnd = () => {
+      this.draggedOver.dispatch(false);
+      dragStore.dispatch({ isDraggingActive: false });
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('dragend', this.dragEnd)
+    }
     render(Props: Props<DragProps<target>>) {
-      return <Props render={({ onDragStart, render }) =>
-        <span
-          { ...(onDragStart !== undefined && {
-            draggable: 'true',
-            ondragstart: () => dragStore.dispatch({ isDraggingActive: true, target: onDragStart()})
-          })}
-        >
+
+      window.addEventListener('dragend', this.dragEnd)
+
+      return <Props render={({ onDragStart, onDragEnd, render }) =>
+        <this.draggedOver.Observer render={(draggedOverState) =>
           <dragStore.Observer render={(dragState) =>
-            render({
-              ...dragState,
-              isDraggedOver: false,
-            })
+            <span
+              { ...(onDragStart !== undefined && {
+                draggable: 'true',
+                ondragstart: () => dragStore.dispatch({ isDraggingActive: true, target: onDragStart()}),
+              })}
+              ondragenter = {() => dragState.isDraggingActive === true && this.draggedOver.dispatch(true)}
+              ondragleave = {() => dragState.isDraggingActive === true && this.draggedOver.dispatch(false)}
+              ondragend = {() => dragState.isDraggingActive === true && onDragEnd && onDragEnd(dragState.target)}
+            >
+              {render({
+                ...dragState,
+                ... (dragState.isDraggingActive === true && { target: dragState.target }),
+                isDraggedOver: draggedOverState as any,
+              })}
+            </span>
           } />
-        </span>
+        } />
       } />;
     }
   };
