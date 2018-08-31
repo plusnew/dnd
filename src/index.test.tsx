@@ -41,8 +41,16 @@ describe('test dragFactory', () => {
     expect(wrapper.search(<div className="target">false</div>).length).toBe(4);
 
     const MainComponentFragment = componentPartial(MainComponent);
-    expect(wrapper.search(<MainComponentFragment key={0} />).find('span').prop('draggable')).toBe("true")
-    expect(wrapper.search(<MainComponentFragment key={1} />).find('span').prop('draggable')).toBe(undefined)
+    expect(wrapper.search(<MainComponentFragment key={0} />).find('span').prop('draggable')).toBe("true");
+    expect(wrapper.search(<MainComponentFragment key={1} />).find('span').prop('draggable')).toBe(undefined);
 
+    wrapper.search(<MainComponentFragment key={0} />).find('span').simulate('dragstart');
+
+    expect(wrapper.search(<MainComponentFragment key={0} />).search(<div className="isDraggingActive">true</div>).length).toBe(1);
+    expect(wrapper.search(<MainComponentFragment key={1} />).search(<div className="isDraggingActive">true</div>).length).toBe(1);
+    expect(wrapper.search(<MainComponentFragment key={2} />).search(<div className="isDraggingActive">false</div>).length).toBe(1);
+    expect(wrapper.search(<MainComponentFragment key={3} />).search(<div className="isDraggingActive">false</div>).length).toBe(1);
+
+    
   });
 });
