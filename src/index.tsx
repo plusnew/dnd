@@ -5,61 +5,86 @@ type isNotDragging = {
   isDraggedOver: false;
 };
 
-type isDragging<target> = {
+type isDragging<source> = {
   isDraggingActive: true;
-  target: target;
+  source: source;
   isDraggedOver: boolean;
 };
 
-type dragState<target> = isDragging<target> | isNotDragging;
+export type dragState<source> = isDragging<source> | isNotDragging;
 
-type DragProps<target> = {
-  onDragStart?: () => target;
-  onDragEnd?: (target: target) => void;
-  render: (drag: dragState<target>) => ApplicationElement;
+type DragProps<source> = {
+  onDragStart?: (element: HTMLElement) => source;
+  onDrop?: (source: source) => void;
+  render: (drag: dragState<source>) => ApplicationElement;
 };
 
-type DragComponent<target> = ComponentContainer<DragProps<target>>;
+type DragComponent<source> = ComponentContainer<DragProps<source>>;
 
-function factory<target>() {
-  type dragState = { isDraggingActive: false } | { isDraggingActive: true, target: target };
+function factory<source>() {
+  type dragState = { isDraggingActive: false } | { isDraggingActive: true, source: source };
 
   const dragStore = store({ isDraggingActive: false } as dragState, (_state, action: dragState) => action);
 
-  return class Drag extends Component<DragProps<target>> {
-    displayName = "Drag";
-    draggedOver = store(false, (_state, action: boolean) => action);
+  return class Drag extends Component<DragProps<source>> {
+    displayName = 'Drag';
+    counter = 0;
+    draggedOver = store(false, (_state, action: boolean) => {
+      return action;
+    });
 
-    dragEnd = () => {
+    dragEnd() {
+      this.counter = 0;
       this.draggedOver.dispatch(false);
       dragStore.dispatch({ isDraggingActive: false });
     }
 
-    componentWillUnmount() {
-      window.removeEventListener('dragend', this.dragEnd)
-    }
-    render(Props: Props<DragProps<target>>) {
+    render(Props: Props<DragProps<source>>) {
 
-      window.addEventListener('dragend', this.dragEnd)
-
-      return <Props render={({ onDragStart, onDragEnd, render }) =>
-        <this.draggedOver.Observer render={(draggedOverState) =>
-          <dragStore.Observer render={(dragState) =>
-            <span
-              { ...(onDragStart !== undefined && {
+      return <Props render={({ onDragStart, onDrop, render }) =>
+        <this.draggedOver.Observer render={draggedOverState =>
+          <dragStore.Observer render={dragState =>
+            <div
+              {...(onDragStart !== undefined && {
                 draggable: 'true',
-                ondragstart: () => dragStore.dispatch({ isDraggingActive: true, target: onDragStart()}),
+                ondragstart: (evt: DragEvent) => setImmediate(() =>
+                  dragStore.dispatch({ isDraggingActive: true, source: onDragStart(evt.target as HTMLElement) }),
+                ),
               })}
-              ondragenter = {() => dragState.isDraggingActive === true && this.draggedOver.dispatch(true)}
-              ondragleave = {() => dragState.isDraggingActive === true && this.draggedOver.dispatch(false)}
-              ondragend = {() => dragState.isDraggingActive === true && onDragEnd && onDragEnd(dragState.target)}
+              ondragover={(event: DragEvent) => dragState.isDraggingActive === true && event.preventDefault()}
+              ondragenter={() => {
+                if (dragState.isDraggingActive === true) {
+                  this.counter += 1;
+                  this.draggedOver.dispatch(true);
+                }
+              }}
+              ondragend={() => {
+                if (dragState.isDraggingActive === true) {
+                  this.dragEnd();
+                }
+              }}
+              ondragleave={() => {
+                if (dragState.isDraggingActive === true) {
+                  this.counter -= 1;
+                  if (this.counter === 0) {
+                    this.draggedOver.dispatch(false);
+                  }
+                }
+              }}
+              ondrop={(event: DragEvent) => {
+                if (dragState.isDraggingActive === true && onDrop) {
+                  event.preventDefault();
+                  onDrop(dragState.source);
+                  this.dragEnd();
+                }
+              }}
             >
               {render({
                 ...dragState,
-                ... (dragState.isDraggingActive === true && { target: dragState.target }),
+                ... (dragState.isDraggingActive === true && { source: dragState.source }),
                 isDraggedOver: draggedOverState as any,
               })}
-            </span>
+            </div>
           } />
         } />
       } />;
