@@ -1,7 +1,4 @@
 {
-  "files": [
-    "node_modules/enzyme-adapter-plusnew/src/enzyme.d.ts"
-  ],
   "include": [
     "src",
   ],

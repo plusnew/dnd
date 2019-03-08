@@ -51,7 +51,7 @@ function factory<source>() {
                   dragStore.dispatch({ isDraggingActive: true, source: onDragStart(evt.target as HTMLElement) }),
                 ),
               })}
-              ondragover={(event: DragEvent) => dragState.isDraggingActive === true && event.preventDefault()}
+              ondragover={(event: DragEvent) => dragState.isDraggingActive === true && onDrop && event.preventDefault()}
               ondragenter={() => {
                 if (dragState.isDraggingActive === true) {
                   this.counter += 1;
