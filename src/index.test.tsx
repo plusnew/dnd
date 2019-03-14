@@ -18,8 +18,8 @@ class MainComponent extends Component<props> {
   render(Props: Props<props>) {
     const recieve = store(false as boolean | number, (_state, action: number) => action);
 
-    return <Props render={({ Drag, key }) =>
-      <recieve.Observer render={recieveState =>
+    return <Props>{({ Drag, key }) =>
+      <recieve.Observer>{recieveState =>
         <Drag
           { ... ( key % 2 === 0 && { onDragStart: () => key }) }
           onDrop={(source) => recieve.dispatch(source)}
@@ -34,8 +34,8 @@ class MainComponent extends Component<props> {
             </>
           }
         />
-      } />
-    } />
+      }</recieve.Observer>
+    }</Props>
   }
 }
 

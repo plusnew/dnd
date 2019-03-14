@@ -41,9 +41,9 @@ function factory<source>() {
 
     render(Props: Props<DragProps<source>>) {
 
-      return <Props render={({ onDragStart, onDrop, render }) =>
-        <this.draggedOver.Observer render={draggedOverState =>
-          <dragStore.Observer render={dragState =>
+      return <Props>{({ onDragStart, onDrop, render }) =>
+        <this.draggedOver.Observer>{draggedOverState =>
+          <dragStore.Observer>{dragState =>
             <div
               {...(onDragStart !== undefined && {
                 draggable: 'true',
@@ -85,9 +85,9 @@ function factory<source>() {
                 isDraggedOver: draggedOverState as any,
               })}
             </div>
-          } />
-        } />
-      } />;
+          }</dragStore.Observer>
+        }</this.draggedOver.Observer>
+      }</Props>;
     }
   };
 }
