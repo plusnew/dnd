@@ -108,7 +108,9 @@ export default function <T>() {
         } else if (initialRender === false) {
           const props = Props.getState();
           if (props.onDrop) {
-            props.onDrop(dragStateCache);
+            // remove the active state out of the cache object, to call the drop
+            const { active, ...dragInformation } = dragStateCache;
+            props.onDrop(dragInformation);
           }
         }
 

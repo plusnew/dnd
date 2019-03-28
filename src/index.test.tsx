@@ -57,7 +57,7 @@ describe('test dragFactory', () => {
   it('delta position gets carried', () => {
     const onDropSpy = jasmine.createSpy('onDrop');
 
-    const drag = dndFactory();
+    const drag = dndFactory<{ id: number }>();
     const MainComponent = component(
       'MainComponent',
       () => <drag.Component onDrop={onDropSpy}>{dragState => <span>{dragState.active ? dragState.deltaPosition.x : 'notactive'}</span>}</drag.Component>,
@@ -73,7 +73,9 @@ describe('test dragFactory', () => {
         x: 10,
         y: 20
       },
-      payload: {}
+      payload: {
+        id: 23,
+      }
     });
 
     expect(wrapper.containsMatchingElement(<span>{0}</span>)).toBe(true);
@@ -95,6 +97,23 @@ describe('test dragFactory', () => {
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
     expect(onDropSpy.calls.count()).toBe(1);
+    expect(onDropSpy).toHaveBeenCalledWith({
+      payload: {
+        id: 23,
+      },
+      startPosition: {
+        x: 10,
+        y: 20
+      },
+      currentPosition: {
+        x: 15,
+        y: 25,
+      },
+      deltaPosition: {
+        x: 5,
+        y: 5,
+      }
+    })
   });
 
   it('render props just gets called initially, not on inactive state', () => {
