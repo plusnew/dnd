@@ -1,10 +1,11 @@
 {
   "name": "@plusnew/dnd",
-  "version": "0.6.38",
+  "version": "0.6.39",
   "description": "",
   "main": "dist/app.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prepublishOnly": "yarn run test && yarn run build",
     "start": "webpack-dev-server --config config/webpack.dev.conf.js",
     "build": "webpack --config config/webpack.prod.conf.js",
     "test": "karma start config/karma.conf.js",
