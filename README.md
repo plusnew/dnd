@@ -23,14 +23,16 @@ const Component = component(
         // if you want to track if it got dropped above an dom element here,
         // than you need to track that yourself with mouseenter and mouseleave
         onDrop={(dragEvent: {x: number, y: number, payload: { id: number }}) => {
-          console.log(dragEvent.x, dragEvent.y); // In these variables are the delta positions, how much it moved compared to the startPosition
+          console.log(dragEvent.deltaPosition.x, dragEvent.deltaPosition.y); // In these variables are the delta positions, how much it moved compared to the startPosition
           console.log(dragEvent.payload); // This contains the payload value which was called at drag.startDrag
         }
-      }>{(dragState): { active: false } { active: true, x: number, y: number, payload: { id: number }} =>
+      }>{(dragState): { active: false } { active: true, deltaPosition: { x: number, y: number }, payload: { id: number }} =>
         <span
           onmouseDown={evt => drag.startDrag({
-            x: evt.clientX, // start position, from where 
-            y: evt.clientY,
+            position: {
+              x: evt.clientX, // start position, from where 
+              y: evt.clientY,
+            },
             payload: {
               id: 0
             }

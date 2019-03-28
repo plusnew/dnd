@@ -19,23 +19,21 @@ describe('test dragFactory', () => {
 
     drag.store.dispatch({
       type: 'DRAG_START',
-      data: {
-        position: {
-          x: 10,
-          y: 20
-        },
-        payload: {}
-      }
+      position: {
+        x: 10,
+        y: 20
+      },
+      payload: {}
     });
 
     expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
   });
 
   it('dragState carries payload', () => {
-    const drag = dndFactory<{id: number}>();
+    const drag = dndFactory<{ id: number }>();
     const MainComponent = component(
       'MainComponent',
-      () => <drag.Component>{dragState => <span>{dragState.active  ? dragState.payload.id : 'notactive'}</span>}</drag.Component>,
+      () => <drag.Component>{dragState => <span>{dragState.active ? dragState.payload.id : 'notactive'}</span>}</drag.Component>,
     );
 
     const wrapper = mount(<MainComponent />)
@@ -44,14 +42,12 @@ describe('test dragFactory', () => {
 
     drag.store.dispatch({
       type: 'DRAG_START',
-      data: {
-        position: {
-          x: 10,
-          y: 20
-        },
-        payload: {
-          id: 23
-        }
+      position: {
+        x: 10,
+        y: 20
+      },
+      payload: {
+        id: 23
       }
     });
 
@@ -73,24 +69,20 @@ describe('test dragFactory', () => {
 
     drag.store.dispatch({
       type: 'DRAG_START',
-      data: {
-        position: {
-          x: 10,
-          y: 20
-        },
-        payload: {}
-      }
+      position: {
+        x: 10,
+        y: 20
+      },
+      payload: {}
     });
 
     expect(wrapper.containsMatchingElement(<span>{0}</span>)).toBe(true);
 
     drag.store.dispatch({
       type: 'DRAG_MOVE',
-      data: {
-        position: {
-          x: 15,
-          y: 25,
-        }
+      position: {
+        x: 15,
+        y: 25,
       }
     });
 
@@ -121,11 +113,9 @@ describe('test dragFactory', () => {
 
     drag.store.dispatch({
       type: 'DRAG_MOVE',
-      data: {
-        position: {
-          x: 15,
-          y: 25,
-        }
+      position: {
+        x: 15,
+        y: 25,
       }
     });
 

@@ -29,17 +29,13 @@ type dragProps<T> = {
 
 type dragStartAction<T> = {
   type: 'DRAG_START',
-  data: {
-    position: position,
-    payload: T,
-  },
+  position: position,
+  payload: T,
 };
 
 type dragMoveAction = {
   type: 'DRAG_MOVE',
-  data: {
-    position: position,
-  },
+  position: position,
 };
 
 type dragStopAction = {
@@ -66,9 +62,9 @@ export default function <T>() {
       case 'DRAG_START': {
         const result: dragActive<T> = {
           active: true,
-          payload: action.data.payload,
-          startPosition: action.data.position,
-          currentPosition: action.data.position,
+          payload: action.payload,
+          startPosition: action.position,
+          currentPosition: action.position,
           deltaPosition: {
             x: 0,
             y: 0,
@@ -84,8 +80,8 @@ export default function <T>() {
             active: true,
             payload: state.payload,
             startPosition: state.startPosition,
-            currentPosition: action.data.position,
-            deltaPosition: getDeltaPosition(state.startPosition, action.data.position),
+            currentPosition: action.position,
+            deltaPosition: getDeltaPosition(state.startPosition, action.position),
           };
 
           return result;
