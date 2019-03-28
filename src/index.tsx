@@ -1,96 +1,134 @@
-import plusnew, { Component, ApplicationElement, ComponentContainer, Props, store } from 'plusnew';
+import plusnew, { store, Component, ApplicationElement, Props } from 'plusnew';
 
-type isNotDragging = {
-  isDraggingActive: false;
-  isDraggedOver: false;
+type position = {
+  x: number;
+  y: number;
 };
 
-type isDragging<source> = {
-  isDraggingActive: true;
-  source: source;
-  isDraggedOver: boolean;
+type dragState<T> = dragInactive | dragActive<T>;
+
+type dragInactive = {
+  active: false;
 };
 
-export type dragState<source> = isDragging<source> | isNotDragging;
+type dragActive<T> = {
+  active: true,
+} & dragInformation<T>;
 
-type DragProps<source> = {
-  onDragStart?: (element: HTMLElement) => source;
-  onDrop?: (source: source) => void;
-  render: (drag: dragState<source>) => ApplicationElement;
+type dragInformation<T> = {
+  startPosition: position;
+  currentPosition: position;
+  deltaPosition: position;
+  payload: T;
 };
 
-type DragComponent<source> = ComponentContainer<DragProps<source>>;
+type dragProps<T> = {
+  onDrop?: (dragState: dragInformation<T>) => void;
+  children: (dragState: dragState<T>) => ApplicationElement;
+};
 
-function factory<source>() {
-  type dragState = { isDraggingActive: false } | { isDraggingActive: true, source: source };
+type dragStartAction<T> = {
+  type: 'DRAG_START',
+  data: {
+    position: position,
+    payload: T,
+  },
+};
 
-  const dragStore = store({ isDraggingActive: false } as dragState, (_state, action: dragState) => action);
+type dragMoveAction = {
+  type: 'DRAG_MOVE',
+  data: {
+    position: position,
+  },
+};
 
-  return class Drag extends Component<DragProps<source>> {
-    displayName = 'Drag';
-    counter = 0;
-    draggedOver = store(false, (_state, action: boolean) => {
-      return action;
-    });
+type dragStopAction = {
+  type: 'DRAG_STOP',
+};
 
-    dragEnd() {
-      this.counter = 0;
-      this.draggedOver.dispatch(false);
-      dragStore.dispatch({ isDraggingActive: false });
-    }
+type actions<T> = dragStartAction<T> | dragMoveAction | dragStopAction;
 
-    render(Props: Props<DragProps<source>>) {
-
-      return <Props render={({ onDragStart, onDrop, render }) =>
-        <this.draggedOver.Observer render={draggedOverState =>
-          <dragStore.Observer render={dragState =>
-            <div
-              {...(onDragStart !== undefined && {
-                draggable: 'true',
-                ondragstart: (evt: DragEvent) => setImmediate(() =>
-                  dragStore.dispatch({ isDraggingActive: true, source: onDragStart(evt.target as HTMLElement) }),
-                ),
-              })}
-              ondragover={(event: DragEvent) => dragState.isDraggingActive === true && onDrop && event.preventDefault()}
-              ondragenter={() => {
-                if (dragState.isDraggingActive === true) {
-                  this.counter += 1;
-                  this.draggedOver.dispatch(true);
-                }
-              }}
-              ondragend={() => {
-                if (dragState.isDraggingActive === true) {
-                  this.dragEnd();
-                }
-              }}
-              ondragleave={() => {
-                if (dragState.isDraggingActive === true) {
-                  this.counter -= 1;
-                  if (this.counter === 0) {
-                    this.draggedOver.dispatch(false);
-                  }
-                }
-              }}
-              ondrop={(event: DragEvent) => {
-                if (dragState.isDraggingActive === true && onDrop) {
-                  event.preventDefault();
-                  onDrop(dragState.source);
-                  this.dragEnd();
-                }
-              }}
-            >
-              {render({
-                ...dragState,
-                ... (dragState.isDraggingActive === true && { source: dragState.source }),
-                isDraggedOver: draggedOverState as any,
-              })}
-            </div>
-          } />
-        } />
-      } />;
-    }
+function getDeltaPosition(from: position, to: position) {
+  return {
+    x: to.x - from.x,
+    y: to.y - from.y,
   };
 }
 
-export { DragComponent };
-export default factory;
+function renderProps<T>(props: T): T {
+  return (props as any)[0];
+}
+
+export default function <T>() {
+  const inactiveDrag: dragState<T> = { active: false };
+  const dragStore = store(inactiveDrag as dragState<T>, (state, action: actions<T>) => {
+    switch (action.type) {
+      case 'DRAG_START': {
+        const result: dragActive<T> = {
+          active: true,
+          payload: action.data.payload,
+          startPosition: action.data.position,
+          currentPosition: action.data.position,
+          deltaPosition: {
+            x: 0,
+            y: 0,
+          },
+        };
+
+        return result;
+      }
+
+      case 'DRAG_MOVE': {
+        if (state.active) {
+          const result: dragActive<T> = {
+            active: true,
+            payload: state.payload,
+            startPosition: state.startPosition,
+            currentPosition: action.data.position,
+            deltaPosition: getDeltaPosition(state.startPosition, action.data.position),
+          };
+
+          return result;
+        }
+        return state;
+      }
+
+      case 'DRAG_STOP': {
+        return inactiveDrag;
+      }
+    }
+
+    throw new Error('No Such Action');
+  });
+
+  class DragComponent extends Component<dragProps<T>> {
+    render(Props: Props<dragProps<T>>) {
+      let initialRender = true;
+      let dragStateCache: dragActive<T>;
+
+      return <dragStore.Observer>{(dragState) => {
+        if (dragState.active === true) {
+          dragStateCache = dragState;
+        } else if (initialRender === false) {
+          const props = Props.getState();
+          if (props.onDrop) {
+            props.onDrop(dragStateCache);
+          }
+        }
+
+        if (initialRender) {
+          initialRender = false;
+        }
+        return (
+          <Props>{(props) => {
+            return renderProps(props.children)(dragState);
+          }}</Props>
+        );
+      }}</dragStore.Observer>;
+    }
+  }
+  return {
+    Component: DragComponent,
+    store: dragStore,
+  };
+}

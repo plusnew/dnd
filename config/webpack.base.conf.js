@@ -31,10 +31,9 @@ module.exports = {
         to: 'plusnew.js',
       }
     ]),
-    new CleanWebpackPlugin('dist', {
-        root: path.join(__dirname, '..'),
-      }
-    ),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: path.join(__dirname, '..'),
+    }),
   ],
   externals: [
     function (context, request, callback) {

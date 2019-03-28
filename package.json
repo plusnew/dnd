@@ -1,6 +1,6 @@
 {
-  "name": "plusnew-dnd",
-  "version": "1.0.0",
+  "name": "@plusnew/dnd",
+  "version": "0.6.33",
   "description": "",
   "main": "dist/app.js",
   "scripts": {
@@ -14,29 +14,28 @@
   ],
   "author": "",
   "dependencies": {
-    "plusnew": "^0.6.12"
+    "plusnew": "^0.6.37"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.1.13",
-    "@types/jasmine": "^2.8.8",
-    "awesome-typescript-loader": "^5.2.0",
-    "clean-webpack-plugin": "^0.1.19",
-    "copy-webpack-plugin": "^4.5.2",
-    "enzyme": "^3.5.0",
+    "@types/jasmine": "^3.3.12",
+    "awesome-typescript-loader": "^5.2.1",
+    "clean-webpack-plugin": "^2.0.1",
+    "copy-webpack-plugin": "^5.0.2",
+    "enzyme": "^3.9.0",
     "enzyme-adapter-plusnew": "^0.6.2",
     "istanbul-instrumenter-loader": "^3.0.1",
-    "jasmine-core": "^3.2.1",
-    "karma": "^3.0.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage-istanbul-reporter": "^2.0.2",
-    "karma-jasmine": "^1.1.2",
+    "karma-coverage-istanbul-reporter": "^2.0.5",
+    "karma-jasmine": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^3.0.0",
-    "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.10.0",
-    "typescript": "^3.0.3",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.7"
+    "karma-webpack": "^3.0.5",
+    "tslint": "^5.14.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.3.4000",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
   }
 }
