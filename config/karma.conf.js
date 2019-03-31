@@ -6,7 +6,7 @@ module.exports = function karmaConfig(config) {
   var configuration = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '../dist/',
+    basePath: '../src/',
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -15,9 +15,8 @@ module.exports = function karmaConfig(config) {
     // list of files / patterns to load in the browser
     files: [
       require.resolve('plusnew'),
-      '../configs/karma/globalEnzyme.ts',
-      '../src/**/*.test.tsx',
-      '../src/**/*.test.ts',
+      './**/*.test.tsx',
+      './**/*.test.ts',
       { pattern: '**/*', watched: true, included: false, served: true, nocache: false }
     ],
 
@@ -30,9 +29,8 @@ module.exports = function karmaConfig(config) {
     // // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
       {
-        '../configs/karma/globalEnzyme.ts': ['webpack'],
-        '../src/**/*.test.tsx': ['webpack', 'sourcemap'],
-        '../src/**/*.test.ts': ['webpack', 'sourcemap'],
+        './**/*.test.tsx': ['webpack', 'sourcemap'],
+        './**/*.test.ts': ['webpack', 'sourcemap'],
       },
 
     // test results reporter to use
