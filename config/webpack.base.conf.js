@@ -4,16 +4,19 @@ const CleanWebpackPlugin = require("clean-webpack-plugin")
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
-  entry: ['./src/index.tsx'],
+  entry: ['./index.tsx'],
   mode: 'development',
   output: {
       path: __dirname + '/../dist',
-      filename: 'app.js'
+      filename: 'app.js',
+      library: 'plusnewDnd',
+      libraryTarget: "umd",
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsConfigPathsPlugin()],
   },
+  context: path.resolve(__dirname, '..', 'src'),
   devtool: 'source-map',
   module: {
     rules: [
@@ -24,16 +27,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: 'public' },
-      {
-        from: require.resolve('plusnew'),
-        to: 'plusnew.js',
-      }
-    ]),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: path.join(__dirname, '..', 'dist'),
-    }),
+        root: path.join(__dirname, '..', 'dist'),
+      }
+    ),
+    new CopyWebpackPlugin([
+      {
+        from: '**/*.d.ts',
+      }
+    ])
   ],
   externals: [
     function (context, request, callback) {

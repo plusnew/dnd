@@ -1,7 +1,7 @@
 {
   "name": "@plusnew/dnd",
-  "version": "0.6.39",
-  "description": "",
+  "version": "0.6.41",
+  "description": "library for doing drag and drop dom-less with plusnew",
   "main": "dist/app.js",
   "types": "dist/index.d.ts",
   "scripts": {
