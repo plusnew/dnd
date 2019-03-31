@@ -32,7 +32,7 @@ module.exports = {
       }
     ]),
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: path.join(__dirname, '..'),
+      cleanOnceBeforeBuildPatterns: path.join(__dirname, '..', 'dist'),
     }),
   ],
   externals: [
