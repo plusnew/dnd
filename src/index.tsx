@@ -1,4 +1,4 @@
-import plusnew, { store, Component, ApplicationElement, Props } from 'plusnew';
+import plusnew, { store, Component, ApplicationElement, Props, storeType, ComponentContainer } from 'plusnew';
 
 type position = {
   x: number;
@@ -55,7 +55,7 @@ function renderProps<T>(props: T): T {
   return (props as any)[0];
 }
 
-export default function <T>() {
+export default function <T>(): {store: storeType<dragState<T>,actions<T>>, Component: ComponentContainer<dragProps<T>>} {
   const inactiveDrag: dragState<T> = { active: false };
   const dragStore = store(inactiveDrag as dragState<T>, (state, action: actions<T>) => {
     switch (action.type) {
