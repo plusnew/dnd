@@ -4038,10 +4038,10 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-plusnew@^0.6.40:
-  version "0.6.40"
-  resolved "https://registry.yarnpkg.com/plusnew/-/plusnew-0.6.40.tgz#46c8e55bb89d7aecfdfe7c4fb8dfdbf43896b457"
-  integrity sha512-6Zdjq23I3QeEL+vAGGKHi5NyzbSSmPVKhDLwnH5Z03XlsrgMZktCzERcRII58ncVpU2i5KWdoT9wIMlaYouUBA==
+plusnew@^0.6.44:
+  version "0.6.44"
+  resolved "https://registry.yarnpkg.com/plusnew/-/plusnew-0.6.44.tgz#efb0e99fe41720cf1f1b14cb6ec962eace477a49"
+  integrity sha512-XrwfSYsERrHDMOtFQ2o7xND63a7Oe/iTIkk+JaxWuag/1fVSscj4zDoEoM9qYsKd1/EhbH8Vtp3GKxUpYhxuJA==
 
 portfinder@^1.0.9:
   version "1.0.20"

@@ -23,9 +23,7 @@
   "bugs": {
     "url": "https://github.com/plusnew-dnd/plusnew/issues"
   },
-  "dependencies": {
-    "plusnew": "^0.6.40"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^3.3.12",
     "awesome-typescript-loader": "^5.2.1",
@@ -41,6 +39,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.5",
+    "plusnew": "^0.6.44",
     "tslint": "^5.15.0",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.4.1",
