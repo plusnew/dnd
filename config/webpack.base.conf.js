@@ -1,6 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require("clean-webpack-plugin")
+const { CleanWebpackPlugin } = WebpackPlugin = require("clean-webpack-plugin")
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
