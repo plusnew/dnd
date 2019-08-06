@@ -1,4 +1,4 @@
-# plusnew-dnd [![Build Status](https://api.travis-ci.org/plusnew/plusnew-dnd.svg?branch=master)](https://travis-ci.org/plusnew/plusnew-dnd) [![Coverage Status](https://coveralls.io/repos/github/plusnew/plusnew-dnd/badge.svg?branch=master)](https://coveralls.io/github/plusnew/plusnew-dnd)
+# plusnew-dnd [![Build Status](https://api.travis-ci.org/plusnew/dnd.svg?branch=master)](https://travis-ci.org/plusnew/dnd) [![Coverage Status](https://coveralls.io/repos/github/plusnew/dnd/badge.svg?branch=master)](https://coveralls.io/github/plusnew/dnd)
 
 This library is for typesafe drag-and-drop in plusnew
 Beware that this is a very abstract drag and drop library, this library does no dom handling whatsoever.
