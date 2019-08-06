@@ -9,7 +9,7 @@ module.exports = {
   output: {
       path: __dirname + '/../dist',
       filename: 'app.js',
-      library: 'plusnewDnd',
+      library: '@plusnew/dnd',
       libraryTarget: "umd",
   },
   resolve: {
@@ -40,7 +40,7 @@ module.exports = {
   externals: [
     function (context, request, callback) {
       const contextParts = path.parse(context);
-      if (request === 'plusnew' || (request === 'enzyme' && contextParts.base !== 'karma')) {
+      if (request === '@plusnew/core' || (request === 'enzyme' && contextParts.base !== 'karma')) {
         return callback(null, request);
       } else if (request === '__dirname') { // This module creates a string for each module, in what directory it is existent
         // const dirname = context.slice(path.resolve(__dirname, '../../src').length + 1);

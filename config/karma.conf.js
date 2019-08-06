@@ -14,7 +14,7 @@ module.exports = function karmaConfig(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      require.resolve('plusnew'),
+      require.resolve('@plusnew/core'),
       './**/*.test.tsx',
       './**/*.test.ts',
       { pattern: '**/*', watched: true, included: false, served: true, nocache: false }

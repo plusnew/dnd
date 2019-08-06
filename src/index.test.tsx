@@ -1,6 +1,6 @@
-import enzymeAdapterPlusnew, { mount } from 'enzyme-adapter-plusnew';
+import enzymeAdapterPlusnew, { mount } from '@plusnew/enzyme-adapter';
 import { configure } from 'enzyme';
-import plusnew, { component } from 'plusnew';
+import plusnew, { component } from '@plusnew/core';
 import dndFactory from './index';
 
 configure({ adapter: new enzymeAdapterPlusnew() });

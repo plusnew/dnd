@@ -1,4 +1,4 @@
-import plusnew, { store, Component, ApplicationElement, Props, storeType, ComponentContainer } from 'plusnew';
+import plusnew, { store, Component, ApplicationElement, Props, storeType, ComponentContainer } from '@plusnew/core';
 
 type position = {
   x: number;

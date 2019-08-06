@@ -4,7 +4,7 @@ This library is for typesafe drag-and-drop in plusnew
 Beware that this is a very abstract drag and drop library, this library does no dom handling whatsoever.
 
 ```ts
-import plusnew, { component } from 'plusnew';
+import plusnew, { component } from '@plusnew/core';
 import dndFactory from '@plusnew/dnd';
 
 // Create a drag-and-drop container
