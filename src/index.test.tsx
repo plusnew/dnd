@@ -13,7 +13,7 @@ describe('test dragFactory', () => {
       () => <drag.Component>{dragState => <span>{dragState.active ? 'active' : 'notactive'}</span>}</drag.Component>,
     );
 
-    const wrapper = mount(<MainComponent />)
+    const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
@@ -21,12 +21,18 @@ describe('test dragFactory', () => {
       type: 'DRAG_START',
       position: {
         x: 10,
-        y: 20
+        y: 20,
       },
-      payload: {}
+      payload: {},
     });
 
     expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
+
+    drag.store.dispatch({
+      type: 'DRAG_STOP',
+    });
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
   });
 
   it('dragState carries payload', () => {
@@ -36,7 +42,7 @@ describe('test dragFactory', () => {
       () => <drag.Component>{dragState => <span>{dragState.active ? dragState.payload.id : 'notactive'}</span>}</drag.Component>,
     );
 
-    const wrapper = mount(<MainComponent />)
+    const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
@@ -44,11 +50,11 @@ describe('test dragFactory', () => {
       type: 'DRAG_START',
       position: {
         x: 10,
-        y: 20
+        y: 20,
       },
       payload: {
-        id: 23
-      }
+        id: 23,
+      },
     });
 
     expect(wrapper.containsMatchingElement(<span>{23}</span>)).toBe(true);
@@ -63,7 +69,7 @@ describe('test dragFactory', () => {
       () => <drag.Component onDrop={onDropSpy}>{dragState => <span>{dragState.active ? dragState.deltaPosition.x : 'notactive'}</span>}</drag.Component>,
     );
 
-    const wrapper = mount(<MainComponent />)
+    const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
@@ -71,11 +77,11 @@ describe('test dragFactory', () => {
       type: 'DRAG_START',
       position: {
         x: 10,
-        y: 20
+        y: 20,
       },
       payload: {
         id: 23,
-      }
+      },
     });
 
     expect(wrapper.containsMatchingElement(<span>{0}</span>)).toBe(true);
@@ -85,11 +91,11 @@ describe('test dragFactory', () => {
       position: {
         x: 15,
         y: 25,
-      }
+      },
     });
 
     expect(wrapper.containsMatchingElement(<span>{5}</span>)).toBe(true);
-    expect(onDropSpy.calls.count()).toBe(0)
+    expect(onDropSpy.calls.count()).toBe(0);
 
     drag.store.dispatch({
       type: 'DRAG_STOP',
@@ -103,7 +109,7 @@ describe('test dragFactory', () => {
       },
       startPosition: {
         x: 10,
-        y: 20
+        y: 20,
       },
       currentPosition: {
         x: 15,
@@ -112,12 +118,12 @@ describe('test dragFactory', () => {
       deltaPosition: {
         x: 5,
         y: 5,
-      }
-    })
+      },
+    });
   });
 
   it('render props just gets called initially, not on inactive state', () => {
-    const renderProps = jasmine.createSpy('onDrop', (dragState) => <span>{dragState.active ? 'active' : 'notactive'}</span>).and.callThrough();
+    const renderProps = jasmine.createSpy('renderProps', dragState => <span>{dragState.active ? 'active' : 'notactive'}</span>).and.callThrough();
 
     const drag = dndFactory();
     const MainComponent = component(
@@ -125,7 +131,7 @@ describe('test dragFactory', () => {
       () => <drag.Component>{renderProps}</drag.Component>,
     );
 
-    const wrapper = mount(<MainComponent />)
+    const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
     expect(renderProps.calls.count()).toBe(1);
@@ -135,7 +141,7 @@ describe('test dragFactory', () => {
       position: {
         x: 15,
         y: 25,
-      }
+      },
     });
 
     expect(renderProps.calls.count()).toBe(1);
@@ -147,5 +153,5 @@ describe('test dragFactory', () => {
     expect(() => {
       drag.store.dispatch('no read action' as any);
     }).toThrowError('No Such Action');
-  })
+  });
 });
