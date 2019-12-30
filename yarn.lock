@@ -109,9 +109,9 @@
     tslib "^1.8.1"
 
 "@plusnew/core@^0.6.59":
-  version "0.6.59"
-  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-0.6.59.tgz#dd36fb208116765b796cbf49bf09248caf3663b5"
-  integrity sha512-NHs35JmBn2Ub8WDSaZEpzaaN0t9IvnX6QmtkRPzUwMFqZy+21+MeFXB6L2VM+W16Bc9gCmASpQajFEaud02vyA==
+  version "0.6.63"
+  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-0.6.63.tgz#522b1776a6177d0dbe6b5b364cd754797ea50a21"
+  integrity sha512-qBF7fsePxDHeMEXcTI3irmD3Bq2fX9cRM4ff/z+ffCNRmuD3NVZJSOKE6TeI/cGy8Y6yqN+FiSZcBT2vJEnlVw==
 
 "@plusnew/enzyme-adapter@^0.6.54":
   version "0.6.54"
