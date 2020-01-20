@@ -1,7 +1,7 @@
 {
   "include": [
     "src",
-    "node_modules"
+    "node_modules/@plusnew"
   ],
   "compilerOptions": {
     /* Basic Options */
