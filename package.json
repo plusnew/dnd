@@ -1,15 +1,13 @@
 {
   "name": "@plusnew/dnd",
-  "version": "0.6.53",
+  "version": "1.0.0-alpha.1",
   "description": "library for doing drag and drop dom-less with plusnew",
-  "main": "dist/app.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "scripts": {
-    "prepublishOnly": "yarn run test && yarn run build",
-    "start": "webpack-dev-server --config config/webpack.dev.conf.js",
-    "build": "webpack --config config/webpack.prod.conf.js",
-    "test": "karma start config/karma.conf.js",
-    "test:watch": "karma start config/karma.conf.js --auto-watch --no-single-run"
+    "prepublishOnly": "yarn run test --no-cache",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "plusnew"
@@ -25,26 +23,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@plusnew/core": "^0.6.63",
-    "@plusnew/enzyme-adapter": "^0.6.54",
-    "@types/jasmine": "^3.5.0",
-    "awesome-typescript-loader": "^5.2.1",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "@plusnew/core": "1.0.0-alpha.7",
+    "@plusnew/driver-dom": "1.0.0-alpha.7",
+    "@plusnew/enzyme-adapter": "1.0.0-alpha.5",
+    "@types/jest": "^24.9.0",
     "enzyme": "^3.11.0",
-    "istanbul-instrumenter-loader": "^3.0.1",
-    "jasmine-core": "^3.5.0",
-    "karma": "^4.3.0",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage-istanbul-reporter": "^2.1.1",
-    "karma-jasmine": "^3.1.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^4.0.2",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.2",
-    "typescript": "^3.7.4",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "typescript": "^3.7.4"
   }
 }

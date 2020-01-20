@@ -55,7 +55,7 @@ function renderProps<T>(props: T): T {
   return (props as any)[0];
 }
 
-export default function <T>(): {store: storeType<dragState<T>, actions<T>>, Component: ComponentContainer<dragProps<T>>} {
+export default function <T>(): {store: storeType<dragState<T>, actions<T>>, Component: ComponentContainer<dragProps<T>, any, any>} {
   const inactiveDrag: dragState<T> = { active: false };
   const dragStore = store(inactiveDrag as dragState<T>, (state, action: actions<T>) => {
     switch (action.type) {
