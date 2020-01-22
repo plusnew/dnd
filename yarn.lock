@@ -322,10 +322,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@plusnew/core@1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.0-alpha.8.tgz#9c20d8e734f12d32e39af670c4ee398a4ae2ec46"
-  integrity sha512-U/08hvvxATauZztBsFoVTO/yTLNRZ+wscUp7A9TPEYqCVxr6xZYdvxk2C/P1csHO+tILzU4Gn+s5WSsKA3u8IQ==
+"@plusnew/core@1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.0-alpha.9.tgz#24276ec8eb7ee7772f962af6f2009a8d9f170e37"
+  integrity sha512-gHFh17yue3/sR0Nk/s9iMUWHMnIzlbLBBYg6Nmv+iTCW5yld0vrfJwgHHIxdtf/qy972khSRqJlme1Oh+Eh3/A==
 
 "@plusnew/driver-dom@1.0.0-alpha.9":
   version "1.0.0-alpha.9"
