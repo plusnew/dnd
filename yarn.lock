@@ -360,17 +360,17 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@plusnew/core@^1.0.0-beta.4":
+"@plusnew/core@1.0.0-beta.4":
   version "1.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.0-beta.4.tgz#182257847996355fac39aeda06fdbaa90cd3c029"
   integrity sha512-6kaySgLBPfFbxz7NAiH7hjytPLeHOhPClKf2q3eXlldmb9ceMRGNaajnkemaY/qFbKSHvkRpdq7OmxGUw0ILwQ==
 
-"@plusnew/driver-dom@^1.0.0-beta.3":
+"@plusnew/driver-dom@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@plusnew/driver-dom/-/driver-dom-1.0.0-beta.3.tgz#9b4f6df914636beb49bad10b540a29a6dc89d677"
   integrity sha512-KfKZD9PBASlx1pcoTSHqFFzWfr9t2IGA5vO7AYwpD/TwXxn64Lourt+IpgcpyqA+xNxE1EOY4s5wtaKaeKTXmg==
 
-"@plusnew/enzyme-adapter@^1.0.0-beta.2":
+"@plusnew/enzyme-adapter@1.0.0-beta.2":
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@plusnew/enzyme-adapter/-/enzyme-adapter-1.0.0-beta.2.tgz#1544f7ad5f3d9edc40583b88caf77b4c4dc2e707"
   integrity sha512-fUQQHXvajTLtOxbqd61C7CXyi6lI5amVWxafTglf6lDCbHGsrpiXQW6EtjoeT7MGSQ/b3eXwZ01YuMtcm/iZ5Q==
@@ -3768,9 +3768,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 typescript@^3.7.4:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.2.tgz#91d6868aaead7da74f493c553aeff76c0c0b1d5a"
+  integrity sha512-EgOVgL/4xfVrCMbhYKUQTdF37SQn4Iw73H5BgCrF1Abdun7Kwy/QZsE/ssAy0y4LxBbvua3PIbFsbRczWWnDdQ==
 
 union-value@^1.0.0:
   version "1.0.1"
