@@ -24,7 +24,7 @@
   "dependencies": {},
   "devDependencies": {
     "@plusnew/core": "1.0.0-beta.4",
-    "@plusnew/driver-dom": "1.0.0-beta.3",
+    "@plusnew/driver-dom": "1.0.0-beta.5",
     "@plusnew/enzyme-adapter": "1.0.0-beta.2",
     "@types/jest": "^25.1.2",
     "enzyme": "^3.11.0",
