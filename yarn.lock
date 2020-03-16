@@ -344,10 +344,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@plusnew/core@1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.0-beta.4.tgz#182257847996355fac39aeda06fdbaa90cd3c029"
-  integrity sha512-6kaySgLBPfFbxz7NAiH7hjytPLeHOhPClKf2q3eXlldmb9ceMRGNaajnkemaY/qFbKSHvkRpdq7OmxGUw0ILwQ==
+"@plusnew/core@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.0-beta.6.tgz#44167c2f89c81673fe16ec0a54cc77e6977503d1"
+  integrity sha512-Q6xXlsM3ochB+PuQvgxfDyecsYfH/SgvOfndVa55V1dFHQB4Vh7O9kXrGNo4jXxnI21FdLh8/vpdP7HyEJOThQ==
 
 "@plusnew/driver-dom@1.0.0-beta.5":
   version "1.0.0-beta.5"
