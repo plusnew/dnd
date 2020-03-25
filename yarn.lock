@@ -413,9 +413,9 @@
   integrity sha512-v7J1IdD/TbJnZDmZpEkZI5f9l2CxrDwulTpJWvcMqkBSrJdcG27YsreW0YxOqTZ19LE2iHwq0um3o3fH8x4yPQ==
 
 "@plusnew/enzyme-adapter@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@plusnew/enzyme-adapter/-/enzyme-adapter-1.0.0.tgz#c07c0b117f6956a6ab66c2a71c7d27e206266f87"
-  integrity sha512-0sq9mg810fQOfJIiBqk18fVtorrNdGgPHf7m9fuv8Bmxj7GokaGAT5zGbpd4LbSVb/dV+3X183bnUlmtvlaq7Q==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@plusnew/enzyme-adapter/-/enzyme-adapter-1.0.1.tgz#52b513986f49389f0f7edf4ff33d0cb50dbc481c"
+  integrity sha512-VIibNWmfxZb0PvHrUY5lgbddWbIfdzRx7hqvEUlP6Q9kxqwumIMjfwfDJIcDkkeKN515Letz0uaM+pJlBXH6FQ==
 
 "@sinonjs/commons@^1.7.0":
   version "1.7.1"
