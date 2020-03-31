@@ -1,9 +1,7 @@
 language: node_js
 
-dist: trusty
-
 node_js:
-  - node
+  - node 
 
 sudo: required
 
@@ -16,6 +14,6 @@ after_success:
 notifications:
   email:
     recipients:
-      - travis@plusnew.io
+      - travis@webentwickler2-0.de
     on_success: change
     on_failure: always
