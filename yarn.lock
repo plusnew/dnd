@@ -466,9 +466,9 @@
     chalk "^3.0.0"
 
 "@plusnew/core@^1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.0.3.tgz#a62206c201f2d3175846c3b1311eee8932e1ccaa"
-  integrity sha512-+XYfXfg++LdnqQ0VkUhX36C8f5K4Mcq4RS0TSeTSqqk1oj+dMT3cn7LlqhTOclLhRt2i/9PHp3YGCVVU9IQYZA==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.1.0.tgz#9e003a0ea497f2b63bce2c62014415bc10d1c7af"
+  integrity sha512-VbO3A0TpI+5rd8XYanFnr5ty8QRvfOTi5AAFMKnw4RANT3VpS3NO/jTCPnj2ntg1EQRBebakrgstBsuRoD9ChQ==
 
 "@plusnew/driver-dom@1.0.2":
   version "1.0.2"
