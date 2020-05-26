@@ -1,6 +1,6 @@
 {
 	"name": "@plusnew/dnd",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "library for doing drag and drop dom-less with plusnew",
 	"main": "src/index.tsx",
 	"module": "src/index.tsx",
@@ -14,12 +14,12 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/plusnew-dnd/plusnew.git"
+		"url": "git+https://github.com/plusnew/dnd.git"
 	},
 	"author": "Carlo Jeske",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/plusnew-dnd/plusnew/issues"
+		"url": "https://github.com/plusnew/dnd/issues"
 	},
 	"dependencies": {},
 	"devDependencies": {
