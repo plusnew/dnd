@@ -1,24 +1,27 @@
-import plusnew, { component } from '@plusnew/core';
-import enzymeAdapterPlusnew, { mount } from '@plusnew/enzyme-adapter';
-import { configure } from 'enzyme';
-import dndFactory from './index';
+import plusnew, { component, Props } from "@plusnew/core";
+import enzymeAdapterPlusnew, { mount } from "@plusnew/enzyme-adapter";
+import { configure } from "enzyme";
+import dndFactory from "./index";
 
 configure({ adapter: new enzymeAdapterPlusnew() });
 
-describe('test dragFactory', () => {
-  it('dragState is shown correctly', () => {
+describe("test dragFactory", () => {
+  it("dragState is shown correctly", () => {
     const drag = dndFactory();
-    const MainComponent = component(
-      'MainComponent',
-      () => <drag.Component>{dragState => <span>{dragState.active ? 'active' : 'notactive'}</span>}</drag.Component>,
-    );
+    const MainComponent = component("MainComponent", () => (
+      <drag.Component>
+        {(dragState) => (
+          <span>{dragState.active ? "active" : "notactive"}</span>
+        )}
+      </drag.Component>
+    ));
 
     const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
     drag.store.dispatch({
-      type: 'DRAG_START',
+      type: "DRAG_START",
       position: {
         x: 10,
         y: 20,
@@ -29,25 +32,28 @@ describe('test dragFactory', () => {
     expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
 
     drag.store.dispatch({
-      type: 'DRAG_STOP',
+      type: "DRAG_STOP",
     });
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
   });
 
-  it('dragState carries payload', () => {
+  it("dragState carries payload", () => {
     const drag = dndFactory<{ id: number }>();
-    const MainComponent = component(
-      'MainComponent',
-      () => <drag.Component>{dragState => <span>{dragState.active ? dragState.payload.id : 'notactive'}</span>}</drag.Component>,
-    );
+    const MainComponent = component("MainComponent", () => (
+      <drag.Component>
+        {(dragState) => (
+          <span>{dragState.active ? dragState.payload.id : "notactive"}</span>
+        )}
+      </drag.Component>
+    ));
 
     const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
     drag.store.dispatch({
-      type: 'DRAG_START',
+      type: "DRAG_START",
       position: {
         x: 10,
         y: 20,
@@ -60,21 +66,26 @@ describe('test dragFactory', () => {
     expect(wrapper.containsMatchingElement(<span>{23}</span>)).toBe(true);
   });
 
-  it('delta position gets carried', () => {
-    const onDropSpy = jasmine.createSpy('onDrop');
+  it("delta position gets carried", () => {
+    const onDropSpy = jasmine.createSpy("onDrop");
 
     const drag = dndFactory<{ id: number }>();
-    const MainComponent = component(
-      'MainComponent',
-      () => <drag.Component onDrop={onDropSpy}>{dragState => <span>{dragState.active ? dragState.deltaPosition.x : 'notactive'}</span>}</drag.Component>,
-    );
+    const MainComponent = component("MainComponent", () => (
+      <drag.Component onDrop={onDropSpy}>
+        {(dragState) => (
+          <span>
+            {dragState.active ? dragState.deltaPosition.x : "notactive"}
+          </span>
+        )}
+      </drag.Component>
+    ));
 
     const wrapper = mount(<MainComponent />);
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
 
     drag.store.dispatch({
-      type: 'DRAG_START',
+      type: "DRAG_START",
       position: {
         x: 10,
         y: 20,
@@ -87,7 +98,7 @@ describe('test dragFactory', () => {
     expect(wrapper.containsMatchingElement(<span>{0}</span>)).toBe(true);
 
     drag.store.dispatch({
-      type: 'DRAG_MOVE',
+      type: "DRAG_MOVE",
       position: {
         x: 15,
         y: 25,
@@ -98,7 +109,7 @@ describe('test dragFactory', () => {
     expect(onDropSpy.calls.count()).toBe(0);
 
     drag.store.dispatch({
-      type: 'DRAG_STOP',
+      type: "DRAG_STOP",
     });
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
@@ -122,14 +133,17 @@ describe('test dragFactory', () => {
     });
   });
 
-  it('render props just gets called initially, not on inactive state', () => {
-    const renderProps = jasmine.createSpy('renderProps', dragState => <span>{dragState.active ? 'active' : 'notactive'}</span>).and.callThrough();
+  it("render props just gets called initially, not on inactive state", () => {
+    const renderProps = jasmine
+      .createSpy("renderProps", (dragState) => (
+        <span>{dragState.active ? "active" : "notactive"}</span>
+      ))
+      .and.callThrough();
 
     const drag = dndFactory();
-    const MainComponent = component(
-      'MainComponent',
-      () => <drag.Component>{renderProps}</drag.Component>,
-    );
+    const MainComponent = component("MainComponent", () => (
+      <drag.Component>{renderProps}</drag.Component>
+    ));
 
     const wrapper = mount(<MainComponent />);
 
@@ -137,7 +151,7 @@ describe('test dragFactory', () => {
     expect(renderProps.calls.count()).toBe(1);
 
     drag.store.dispatch({
-      type: 'DRAG_MOVE',
+      type: "DRAG_MOVE",
       position: {
         x: 15,
         y: 25,
@@ -147,11 +161,82 @@ describe('test dragFactory', () => {
     expect(renderProps.calls.count()).toBe(1);
   });
 
-  it('store throws exception with invalid action', () => {
+  it("store throws exception with invalid action", () => {
     const drag = dndFactory();
 
     expect(() => {
-      drag.store.dispatch('no read action' as any);
-    }).toThrowError('No Such Action');
+      drag.store.dispatch("no read action" as any);
+    }).toThrowError("No Such Action");
+  });
+
+  it("all ondrops have to happen before any renderprops", () => {
+    const nestedRenderProps = jasmine
+      .createSpy("renderProps", (dragState) => (
+        <span>{dragState.active ? "active" : "notactive"}</span>
+      ))
+      .and.callThrough();
+    const mainOnDropSpy = jasmine
+      .createSpy("mainOnDropSpy", () =>
+        expect(nestedRenderProps).not.toHaveBeenCalled()
+      )
+      .and.callThrough();
+    const drag = dndFactory<{ id: number }>();
+    const MainComponent = component("MainComponent", () => (
+      <drag.Component onDrop={mainOnDropSpy}>
+        {(dragState) => (
+          <NestedComponent
+            id={dragState.active ? dragState.payload.id : null}
+          />
+        )}
+      </drag.Component>
+    ));
+
+    const NestedComponent = component(
+      "NestedComponent",
+      (Props: Props<{ id: number | null }>) => (
+        <Props>
+          {(props) => (
+            <drag.Component onDrop={() => expect(props.id).toBe(23)}>
+              {nestedRenderProps}
+            </drag.Component>
+          )}
+        </Props>
+      )
+    );
+
+    const wrapper = mount(<MainComponent />);
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
+
+    drag.store.dispatch({
+      type: "DRAG_START",
+      position: {
+        x: 10,
+        y: 20,
+      },
+      payload: {
+        id: 23,
+      },
+    });
+
+    expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
+
+    drag.store.dispatch({
+      type: "DRAG_MOVE",
+      position: {
+        x: 15,
+        y: 25,
+      },
+    });
+
+    expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
+    nestedRenderProps.calls.reset();
+
+    drag.store.dispatch({
+      type: "DRAG_STOP",
+    });
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
+    expect(mainOnDropSpy.calls.count()).toBe(1);
   });
 });

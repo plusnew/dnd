@@ -1,4 +1,11 @@
-import plusnew, { store, Component, ApplicationElement, Props, Store, ComponentContainer } from '@plusnew/core';
+import plusnew, {
+  store,
+  Component,
+  ApplicationElement,
+  Props,
+  Store,
+  ComponentContainer,
+} from "@plusnew/core";
 
 type position = {
   x: number;
@@ -12,7 +19,7 @@ type dragInactive = {
 };
 
 type dragActive<T> = {
-  active: true,
+  active: true;
 } & dragInformation<T>;
 
 type dragInformation<T> = {
@@ -28,18 +35,18 @@ type dragProps<T> = {
 };
 
 type dragStartAction<T> = {
-  type: 'DRAG_START',
-  position: position,
-  payload: T,
+  type: "DRAG_START";
+  position: position;
+  payload: T;
 };
 
 type dragMoveAction = {
-  type: 'DRAG_MOVE',
-  position: position,
+  type: "DRAG_MOVE";
+  position: position;
 };
 
 type dragStopAction = {
-  type: 'DRAG_STOP',
+  type: "DRAG_STOP";
 };
 
 type actions<T> = dragStartAction<T> | dragMoveAction | dragStopAction;
@@ -51,78 +58,99 @@ function getDeltaPosition(from: position, to: position) {
   };
 }
 
-function renderProps<T>(props: T): T {
-  return (props as any)[0];
-}
-
-export default function <T>(): {store: Store<dragState<T>, actions<T>>, Component: ComponentContainer<dragProps<T>, any, any>} {
+export default function <T>(): {
+  store: Store<dragState<T>, actions<T>>;
+  Component: ComponentContainer<dragProps<T>, any, any>;
+} {
   const inactiveDrag: dragState<T> = { active: false };
-  const dragStore = store(inactiveDrag as dragState<T>, (state, action: actions<T>) => {
-    switch (action.type) {
-      case 'DRAG_START': {
-        const result: dragActive<T> = {
-          active: true,
-          payload: action.payload,
-          startPosition: action.position,
-          currentPosition: action.position,
-          deltaPosition: {
-            x: 0,
-            y: 0,
-          },
-        };
 
-        return result;
-      }
-
-      case 'DRAG_MOVE': {
-        if (state.active) {
+  const dragStore = store<dragState<T>, actions<T>>(
+    inactiveDrag,
+    (state, action: actions<T>) => {
+      switch (action.type) {
+        case "DRAG_START": {
           const result: dragActive<T> = {
             active: true,
-            payload: state.payload,
-            startPosition: state.startPosition,
+            payload: action.payload,
+            startPosition: action.position,
             currentPosition: action.position,
-            deltaPosition: getDeltaPosition(state.startPosition, action.position),
+            deltaPosition: {
+              x: 0,
+              y: 0,
+            },
           };
 
           return result;
         }
-        return state;
-      }
 
-      case 'DRAG_STOP': {
-        return inactiveDrag;
+        case "DRAG_MOVE": {
+          if (state.active) {
+            const result: dragActive<T> = {
+              active: true,
+              payload: state.payload,
+              startPosition: state.startPosition,
+              currentPosition: action.position,
+              deltaPosition: getDeltaPosition(
+                state.startPosition,
+                action.position
+              ),
+            };
+
+            return result;
+          }
+          return state;
+        }
+
+        case "DRAG_STOP": {
+          return inactiveDrag;
+        }
+        default:
+          throw new Error("No Such Action");
       }
     }
+  );
 
-    throw new Error('No Such Action');
-  });
+  const dropStore = store<dragActive<T> | null, actions<T>>(
+    null,
+    (previousState, action) => {
+      if (action.type === "DRAG_STOP") {
+        return mirrorStore.getState() as dragActive<T>;
+      }
+      return previousState;
+    }
+  );
+  dragStore.subscribe(dropStore.dispatch);
+
+  const mirrorStore = store<dragState<T>>(dragStore.getState());
+  dragStore.subscribe(() => mirrorStore.dispatch(dragStore.getState()));
 
   class DragComponent extends Component<dragProps<T>> {
     render(Props: Props<dragProps<T>>) {
-      let initialRender = true;
-      let dragStateCache: dragActive<T>;
-
-      return <dragStore.Observer>{(dragState) => {
-        if (dragState.active === true) {
-          dragStateCache = dragState;
-        } else if (initialRender === false) {
-          const props = Props.getState();
-          if (props.onDrop) {
-            // remove the active state out of the cache object, to call the drop
-            const { active, ...dragInformation } = dragStateCache;
-            props.onDrop(dragInformation);
-          }
-        }
-
-        if (initialRender) {
-          initialRender = false;
-        }
-        return (
-          <Props>{(props) => {
-            return renderProps(props.children)(dragState);
-          }}</Props>
-        );
-      }}</dragStore.Observer>;
+      return (
+        <>
+          <dropStore.Observer>
+            {(dropState) => {
+              const currentProps = Props.getState();
+              if (dropState !== null && currentProps.onDrop) {
+                const { active, ...dragInformation } = dropState;
+                currentProps.onDrop(dragInformation);
+              }
+              return null;
+            }}
+          </dropStore.Observer>
+          <mirrorStore.Observer>
+            {(dragState) => (
+              <Props>
+                {(props) =>
+                  ((props.children as any)[0] as dragProps<T>["children"])(
+                    dragState
+                  )
+                }
+              </Props>
+            )}
+          </mirrorStore.Observer>
+        </>
+      );
     }
   }
   return {
