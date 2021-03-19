@@ -16,7 +16,7 @@ const Component = component(
   'ComponentName',
   () =>
     <span
-      onmouseMove={(evt) => drag.moveDrag({x: evt.clientX, y: evt.clientY })}
+      onmouseMove={(evt) => drag.store.dispatch({ type: "DRAG_MOVE", position: { x: evt.clientX, y: evt.clientY }})}
     >
       <drag.Component
         // onDrop gets called when drag stop happened, no matter where it gets dropped
@@ -28,9 +28,10 @@ const Component = component(
         }
       }>{(dragState): { active: false } { active: true, deltaPosition: { x: number, y: number }, payload: { id: number }} =>
         <span
-          onmouseDown={evt => drag.startDrag({
+          onmouseDown={evt => drag.store.dispatch({
+            type: "DRAG_START",
             position: {
-              x: evt.clientX, // start position, from where 
+              x: evt.clientX, // start position
               y: evt.clientY,
             },
             payload: {
