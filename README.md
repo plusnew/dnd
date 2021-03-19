@@ -10,7 +10,7 @@ import dndFactory from '@plusnew/dnd';
 // Create a drag-and-drop container
 const drag = dndFactory<{id: number}>();
 
-document.addEventListener('mouseUp', drag.stopDrag);
+document.addEventListener('mouseUp', () => drag.store.dispatch({ type: "DRAG_STOP" });
 
 const Component = component(
   'ComponentName',
