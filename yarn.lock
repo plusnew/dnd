@@ -541,7 +541,7 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@plusnew/core@^1.0.2":
+"@plusnew/core@^1.1.0":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@plusnew/core/-/core-1.6.2.tgz#7cbe5dc5d9c1a933a7bf99c4028b420f80838687"
   integrity sha512-IEAiztvE8FZ8Aymm1YKl1eaJjq2BaKVeV/rP/Dcj3OBrmrBASj/5bjGByuriVD5/Y/HtxzfAa/N3fEWpyjK+dg==

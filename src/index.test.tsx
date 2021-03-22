@@ -1,4 +1,4 @@
-import plusnew, { component, Props } from "@plusnew/core";
+import plusnew, { component, Props, store } from "@plusnew/core";
 import enzymeAdapterPlusnew, { mount } from "@plusnew/enzyme-adapter";
 import { configure } from "enzyme";
 import dndFactory from "./index";
@@ -238,5 +238,50 @@ describe("test dragFactory", () => {
 
     expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
     expect(mainOnDropSpy.calls.count()).toBe(1);
+  });
+
+  it("no ondrop after reconstruct component", () => {
+    const local = store(true);
+    const onDropSpy = jasmine.createSpy("onDropSpy");
+
+    const drag = dndFactory();
+    const MainComponent = component("MainComponent", () => (
+      <local.Observer>
+        {(localState) => (
+          <drag.Component key={localState ? "foo" : "bar"} onDrop={onDropSpy}>
+            {(dragState) => (
+              <span>{dragState.active ? "active" : "notactive"}</span>
+            )}
+          </drag.Component>
+        )}
+      </local.Observer>
+    ));
+
+    const wrapper = mount(<MainComponent />);
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
+
+    drag.store.dispatch({
+      type: "DRAG_START",
+      position: {
+        x: 10,
+        y: 20,
+      },
+      payload: {},
+    });
+
+    expect(wrapper.containsMatchingElement(<span>active</span>)).toBe(true);
+
+    drag.store.dispatch({
+      type: "DRAG_STOP",
+    });
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
+    expect(onDropSpy).toHaveBeenCalledTimes(1);
+
+    local.dispatch(false);
+
+    expect(wrapper.containsMatchingElement(<span>notactive</span>)).toBe(true);
+    expect(onDropSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -110,16 +110,23 @@ export default function <T>(): {
     }
   );
 
-  const dropStore = store<dragActive<T> | null, actions<T>>(
-    null,
-    (previousState, action) => {
-      if (action.type === "DRAG_STOP") {
-        return mirrorStore.getState() as dragActive<T>;
-      }
-      return previousState;
+  const dropStore = store<
+    dragActive<T> | null,
+    actions<T> | { type: "DRAG_RESET" }
+  >(null, (previousState, action) => {
+    if (action.type === "DRAG_STOP") {
+      return mirrorStore.getState() as dragActive<T>;
+    } else if (action.type === "DRAG_RESET") {
+      // Needs to be reset, in case DragComponent gets created afterwards, the onDrop should not be called
+      return null;
     }
-  );
-  dragStore.subscribe(dropStore.dispatch);
+    return previousState;
+  });
+
+  dragStore.subscribe((action) => {
+    dropStore.dispatch(action);
+    dropStore.dispatch({ type: "DRAG_RESET" });
+  });
 
   const mirrorStore = store<dragState<T>>(dragStore.getState());
   dragStore.subscribe(() => mirrorStore.dispatch(dragStore.getState()));
