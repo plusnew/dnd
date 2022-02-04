@@ -1,10 +1,10 @@
 import plusnew, {
   store,
   Component,
-  ApplicationElement,
-  Props,
-  Store,
-  ComponentContainer,
+  type ApplicationElement,
+  type Props,
+  type Store,
+  type ComponentContainer,
 } from "@plusnew/core";
 
 type position = {
